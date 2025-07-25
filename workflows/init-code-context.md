@@ -1,7 +1,7 @@
 Goal: Generate a high-level `docs/codebase_context.md` file by analyzing a project's structure and key files.
 - 1. Initial Reconnaissance:
   - Perform a recursive scan of the project to get a complete file tree.
-  - Read the root `README.md`, `CONTRIBUTING.md`, and any other top-level development guide files.
+  - Read the root `README.md`, `CONTRIBUTING.md`, `docs/codebase_context.md` (if it exists) and any other top-level development guide files.
 
 - 2. Extract Core Project Vitals:
   - Identify the primary programming language and package manager by inspecting dependency files (e.g., `pyproject.toml`, `package.json`, `pom.xml`, `go.mod`, `Gemfile`).
@@ -26,7 +26,7 @@ Goal: Generate a high-level `docs/codebase_context.md` file by analyzing a proje
   - Formulate a brief, high-level summary of a typical request lifecycle or data flow through the application's main components.
 
 - 5. Assemble the Context Document:
-  - Create the `docs/codebase_context.md` file.
+  - Create or update the `docs/codebase_context.md` file.
   - **Project Overview:** Write a short summary of the project's purpose, based on the `README.md`.
   - **Tech Stack:** List the identified language, package manager, and any major frameworks or libraries found in dependency files.
   - **Key Commands:** Create a section with the verbatim commands for installing, running, and testing, as discovered in step 2.

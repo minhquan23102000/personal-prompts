@@ -36,10 +36,7 @@ graph TB
     G --> J[🚀 Productivity Boost]
     H --> J
     I --> J
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style J fill:#c8e6c9
+
 ```
 
 ### Key Benefits

@@ -10,4 +10,3 @@
 8.  **Apply Automated Quality Checks:** Run automated code formatters (e.g., Black, Prettier) and static analysis linters (e.g., Flake8, ESLint) across all modified files to enforce consistency and catch potential issues.
 9.  **Update Documentation:** Revise or add to the relevant documentation (such as `docs/codebase_context.md` or the module-level `README.md`) to accurately reflect the new or changed functionality. Ensure that usage, design decisions, and any important context are clearly described.
 10. **Conduct Final Self-Review:** Perform a thorough review of all code changes. Compare the final implementation against the original plan, acceptance criteria, and established best practices, ensuring all requirements have been met.
-11. **Commit and Submit for Review:** Commit the finalized, reviewed code to the feature branch using a clear and descriptive commit message. Push the branch to the remote repository and create a pull request for peer review.

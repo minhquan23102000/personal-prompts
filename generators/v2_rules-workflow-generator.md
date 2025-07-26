@@ -41,7 +41,7 @@ You must generate a framework with three distinct, hierarchical sections:
 
 ## Constraints
 *   **USE NATURAL LANGUAGE ONLY:** Do not use any rigid, code-like syntax. The entire output should be in professional, clear prose.
-*   **STRUCTURE WITH MARKDOWN:** Use lists and headers to create a clear, organized structure. Use bolding for keywords to aid interpretation.
+*   **STRUCTURE WITH MARKDOWN:** Use lists and headers to create a clear, organized structure. But use simple formatting for token cost efficiency.
 *   **FOCUS ON INTENT, NOT TOOLS:** Never specify a function or tool name.
 
 ## Output

@@ -1,26 +1,39 @@
-### Workflow: Gathering and Documenting User Requirements
+# Requirements Gathering and Documentation
 
-1.  **Define** the project's goals and objectives. Before gathering any requirements, it is crucial to understand what the project aims to achieve. This sets a clear direction and helps align the requirements with the project's ultimate goals.
+This workflow guides the agent through a structured process of eliciting, clarifying, and documenting requirements from any type of user, ensuring a comprehensive and validated final document.
 
-2.  **Identify** all key stakeholders and user personas. This includes anyone who has a stake in the project's development, such as end-users, project sponsors, and technical teams, to ensure all perspectives are considered.
+1.  **Initiate and Establish Context**
+    *   **State:** The agent has received an initial request to gather requirements but lacks the high-level project context.
+    *   **Intent:** The primary goal is to understand the project's **purpose**, the user's **role**, and the overall **business or technical objective**. The agent must establish a foundational understanding before diving into specifics.
+    *   **Success Condition:** The agent can articulate a one-paragraph summary of the project's goal and has identified the primary stakeholder providing the requirements.
+    *   **Fallback Intent:** If the initial request is too vague, the agent's intent shifts to **proactively asking clarifying questions** to establish the necessary context before proceeding to the next step.
 
-3.  **Elicit** requirements from stakeholders. Use a combination of techniques to gather detailed information. This can include interviews, surveys, focus groups, workshops, and analyzing existing documentation.
+2.  **Elicit High-Level Needs**
+    *   **State:** The agent understands the project's context and is ready to engage the user directly on their needs.
+    *   **Intent:** The intent is to prompt the user to describe their desired **outcomes**, **features**, and **goals** in their own words. The focus should be on *what* needs to be accomplished, not *how* it should be implemented.
+    *   **Success Condition:** The agent has captured a list of initial, high-level requirements or user stories, and the user has confirmed this list broadly represents their vision.
+    *   **Fallback Intent:** If the user is unsure how to begin, the agent should **offer prompts based on the project's context**, such as asking about the main problems to be solved or the most critical tasks the user needs to perform.
 
-4.  **Document** every gathered requirement in a clear and structured format. This ensures a common understanding among all stakeholders and serves as a reference throughout the project. Use case scenarios, written from a user's perspective, can be particularly helpful.
+3.  **Probe for Detailed Specifications and Constraints**
+    *   **State:** The agent has a list of high-level requirements that now need to be detailed.
+    *   **Intent:** For each high-level requirement, the intent is to **systematically investigate for specifics**. This includes asking about user interactions, data requirements, business rules, and acceptance criteria that would define success for that feature.
+    *   **Success Condition:** Each high-level requirement is supported by a set of detailed, unambiguous statements that describe its behavior and constraints.
+    *   **Fallback Intent:** If a user provides a vague answer to a probing question, the agent should **rephrase the question or provide illustrative examples** to guide the user toward a more concrete and specific response.
 
-5.  **Analyze** and prioritize the documented requirements. Not all requirements are of equal importance. A framework like MoSCoW (Must have, Should have, Could have, Won't have) can help determine which are essential for the initial launch.
+4.  **Uncover Non-Functional Requirements**
+    *   **State:** The agent has a collection of detailed functional requirements but needs to understand the system's quality attributes.
+    *   **Intent:** The goal is to inquire about requirements not tied to a specific feature, such as **performance**, **security**, **usability**, **reliability**, and **compliance**.
+    *   **Success Condition:** The agent has documented a list of specific, ideally measurable, non-functional requirements (e.g., "The system must be accessible to users with screen readers," "User data must be encrypted at rest").
+    *   **Fallback Intent:** If the user is unfamiliar with these concepts, the agent should **explain the categories with simple examples** relevant to the project (e.g., "How fast does this need to feel for the user?" or "Are there any legal or privacy rules we must follow?").
 
-6.  **Validate** the requirements with stakeholders. This step ensures that the documented requirements accurately reflect their needs and align with the project's objectives.
+5.  **Synthesize and Structure the Documentation**
+    *   **State:** The agent has collected a comprehensive but potentially disorganized set of all requirements.
+    *   **Intent:** The intent is to **organize all gathered information** into a logical, clear, and professionally structured document. This involves grouping related items, defining terminology, and assigning priorities if possible.
+    *   **Success Condition:** A draft document is created that is easy to navigate and understand by both technical and non-technical stakeholders.
+    *   **Fallback Intent:** If the agent identifies any **contradictory or incomplete requirements** during the synthesis process, its intent shifts to flagging these inconsistencies and preparing them for discussion in the final review step.
 
-7.  **Draft** the Product Requirements Document (PRD). This document should outline the product's purpose, features, and functionality. Key elements to include are:
-    *   **Objective/Goal:** Explain the "why" behind building the product.
-    *   **Features:** Describe each feature, its goal, and its use case.
-    *   **User Flow & Design Notes:** Provide general guidance for the user experience.
-    *   **System & Environment Requirements:** Specify supported browsers, operating systems, etc.
-    *   **Assumptions, Constraints, and Dependencies:** List any known conditions or limitations.
-
-8.  **Review** the PRD with all stakeholders. Circulate the document among business and technical teams to confirm alignment on the objectives and the features included to meet them. It's a best practice to use a centralized solution for managing these reviews.
-
-9.  **Obtain** formal sign-off on the PRD. This approval signifies that all stakeholders agree on the defined requirements and the project's scope.
-
-10. **Store** the final PRD in the designated `prd/` folder. This document will now serve as the official guide for the development and testing teams.
+6.  **Facilitate Review and Final Confirmation**
+    *   **State:** A structured draft of the requirements document is ready for validation.
+    *   **Intent:** The primary goal is to **present the complete document to the user for final review and approval**. The agent must ensure the user agrees that the document is an accurate and complete representation of their needs. Then create completed document at prd/ folder.
+    *   **Success Condition:** The user provides explicit confirmation that the document is correct and complete, formally concluding the gathering process. 
+    *   **Fallback Intent:** If the user identifies errors, omissions, or requests changes, the agent must **re-engage in the appropriate prior step** (e.g., Step 3 for clarification, Step 5 for restructuring), amend the document, and then re-initiate this final review step until success is achieved.

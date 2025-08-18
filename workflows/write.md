@@ -1,12 +1,43 @@
-### Workflow: Implementing and Reviewing Code
+This plan outlines the agent's strategy for implementing new functionality or modifying existing code using a rigorous, test-driven development (TDD) methodology. The agent's primary goal is to produce high-quality, well-tested, and maintainable code that precisely matches the implementation plan.
 
-1.  **Orient and Analyze:** Load the approved implementation plan and review the relevant existing codebase. Analyze dependencies, surrounding modules, and architectural patterns to establish a complete technical context for the required changes.
-2.  **Establish Development Environment:** Create a dedicated feature branch from the main development branch. Install or update any required dependencies to ensure a clean and isolated workspace.
-3.  **Initiate Implementation Cycle:** Select the first, smallest logical unit from the plan to begin the core development loop.
-4.  **Write Failing Test:** Author a concise unit test that defines the expected behavior of the code to be written. Verify that this test fails as expected, confirming the test harness is working correctly.
-5.  **Implement Production Code:** Write the minimum amount of production code necessary to make the failing unit test pass. Focus solely on fulfilling the test's contract.
-6.  **Refactor and Iterate:** With the tests passing, refactor the production and test code to improve clarity, remove duplication, and ensure adherence to coding standards. Repeat steps 4-6 for all remaining logical units in the plan.
-7.  **Validate System Integration:** Execute the entire test suite for the application. Debug and resolve any regressions or integration issues that arise from the new changes.
-8.  **Apply Automated Quality Checks:** Run automated code formatters (e.g., Black, Prettier) and static analysis linters (e.g., Flake8, ESLint) across all modified files to enforce consistency and catch potential issues.
-9.  **Update Documentation:** Revise or add to the relevant documentation (such as `docs/codebase_context.md` or the module-level `README.md`) to accurately reflect the new or changed functionality. Ensure that usage, design decisions, and any important context are clearly described.
-10. **Conduct Final Self-Review:** Perform a thorough review of all code changes. Compare the final implementation against the original plan, acceptance criteria, and established best practices, ensuring all requirements have been met.
+1.  **Establish Technical Context.**
+    *   **State:** The agent is aware of the approved **implementation plan** and has access to the target **codebase**.
+    *   **Intent:** The primary intent is to build a comprehensive understanding of the task by analyzing the relevant code, its dependencies, and the surrounding architectural patterns. The agent seeks to understand not just *what* to change, but *why* and *how* it fits into the larger system.
+    *   **Success Condition:** The agent has identified all files, modules, and architectural constraints relevant to the task and can proceed with a clear map of the required changes.
+    *   **Fallback Intent:** If the implementation plan appears to conflict with the existing architecture or if the context is ambiguous, the agent will halt and **request clarification** from the user before proceeding.
+
+2.  **Prepare an Isolated Workspace.**
+    *   **State:** The agent has access to the project's **version control system** and is aware of the primary development branch.
+    *   **Intent:** The intent is to create a secure and isolated **feature branch** and ensure all required dependencies are correctly configured. This prevents any disruption to the main codebase during development.
+    *   **Success Condition:** A new branch is successfully created from the main branch, and the development environment is fully prepared with all necessary packages installed.
+    *   **Fallback Intent:** If branch creation fails or a dependency cannot be resolved, the agent will report the specific error and **revert any partial changes** to the environment to maintain a clean state.
+
+3.  **Execute the Test-Implement-Refactor Cycle.**
+    *   **State:** The agent has the implementation plan broken down into discrete **logical units** of work and is operating within the prepared feature branch.
+    *   **Intent:** The core intent is to repeatedly execute a three-part development cycle for each logical unit: first, **write a failing test** that defines the desired behavior; second, **write the minimum production code** to make that test pass; and third, **refactor the new code** for clarity and quality. This ensures every piece of code is written with a clear, testable purpose.
+    *   **Success Condition:** All logical units from the plan have been implemented, with each having passed through the test-implement-refactor loop. The code is functional and internally consistent.
+    *   **Fallback Intent:** If at any point a test cannot be made to pass, or if a refactoring effort breaks an existing test, the agent will **revert the last change** and attempt an alternative implementation or refactoring strategy. If it remains blocked, it will report the specific failing test and the problematic code.
+
+4.  **Validate System-Wide Integration.**
+    *   **State:** All new code has been written and passes its individual unit tests.
+    *   **Intent:** The intent is to verify that the collective changes integrate seamlessly with the entire application and have not introduced any **unintended side effects** or regressions in other parts of the system.
+    *   **Success Condition:** The **full application test suite** is executed and completes with zero failures.
+    *   **Fallback Intent:** If any integration tests fail, the agent will initiate a debugging process to isolate the regression. It will then apply a fix and **re-run the entire test suite** to confirm the issue is resolved without introducing new ones.
+
+5.  **Enforce Code Quality and Consistency.**
+    *   **State:** The code is fully implemented and has passed all automated tests.
+    *   **Intent:** The intent is to programmatically enforce **coding standards**, style, and consistency across all new and modified files using automated linters and formatters.
+    *   **Success Condition:** The quality-checking tools run without reporting any violations, ensuring the code adheres to project standards.
+    *   **Fallback Intent:** If the tools report errors that cannot be automatically fixed, the agent will **manually adjust the code** to satisfy the required rules.
+
+6.  **Update Project Documentation.**
+    *   **State:** The code is complete, tested, and compliant with quality standards.
+    *   **Intent:** The intent is to ensure the project's documentation is updated to accurately reflect the new or changed functionality. This is critical for **maintaining knowledge** within the project for future developers.
+    *   **Success Condition:** All relevant documentation, such as READMEs or developer guides, is modified or created to describe the changes, their purpose, and their usage.
+    *   **Fallback Intent:** If the agent cannot determine which document to update, it will generate a **new, clearly-named documentation file** summarizing the changes and flag it for user review.
+
+7.  **Conduct Final Self-Review and Conclude.**
+    *   **State:** The code, tests, and documentation are all complete and staged for commit.
+    *   **Intent:** The final intent is to perform a holistic review of all work, comparing the final output against the original **implementation plan** and its acceptance criteria. This acts as a final quality gate before concluding the task.
+    *   **Success Condition:** The agent confirms that the implementation fully satisfies all requirements of the original plan and is ready for submission.
+    *   **Fallback Intent:** If the review uncovers any discrepancy, missed requirement, or potential improvement, the agent will **return to the appropriate prior step** in this plan to make the necessary corrections.

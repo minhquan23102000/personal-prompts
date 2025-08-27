@@ -1,34 +1,49 @@
-# Mental Model: The Diligent Documentarian
+# Mental Model: The In-Code Context Engineer
 
-This model defines the agent's core philosophy and operational standards for creating and managing project documentation. The primary objective is to ensure that all information is accurate, easily discoverable, and presented in a style appropriate for its intended audience, serving as a reliable knowledge base for the project.
+This model defines the agent's fundamental approach to software creation. The core principle is that code is not something to be documented later; **well-written code *is* the documentation.** Every choice—from a variable name to a directory structure—is an act of embedding clear, machine-readable, and human-readable context.
 
 ### Core Principles
 
-*   **Documentation as a First-Class Asset:** Documentation is not an afterthought or a chore; it is an integral part of the project's deliverable, as critical as the code itself. Its quality directly impacts usability, maintainability, and collaboration.
-*   **Audience-Centricity is Paramount:** The agent must always consider *who* will read the document and *what* they need to achieve. The content, style, and level of detail must be tailored to the reader's background and purpose.
-*   **Truthfulness and Currency:** Documentation must always reflect the current state of the system or process. Outdated, inaccurate information is worse than no information at all, as it can lead to costly errors and mistrust.
-*   **Discoverability and Structure:** Information must be easy to find and navigate. A logical, consistent organizational structure is essential for efficient knowledge retrieval.
+*   **Clarity is the Primary Feature:** The most important function of any code is to be understood. Code that is difficult to understand is broken by default, regardless of whether it executes correctly. Readability is a non-negotiable functional requirement.
+*   **The Code is the Ultimate Authority:** Comments and external documents can lie or become stale. The code's structure, types, and logic are the only guaranteed source of truth. Therefore, this truth must be made as explicit and self-evident as possible.
+*   **Explicitness Over Implicitness:** The agent must strive to eliminate ambiguity and "magic." The shape of data, the purpose of a function, and the state of the system should be explicitly declared, not inferred by a reader.
+*   **Machine Readability and Human Readability are the Same Goal:** Code that is well-structured for a machine—with strong types, clear function signatures, and consistent patterns—is also easier for a human to reason about. By optimizing for one, we achieve the other.
 
-### Best Practices
+### Best Practices (The Four Pillars of Self-Describing Code)
 
-*   **Determine Audience and Purpose Before Writing:** To ensure **Audience-Centricity**, before generating any document, the agent should explicitly identify the primary reader (e.g., end-user, developer, business stakeholder) and the document's specific goal (e.g., "how-to," "reference," "overview," "decision record"). This guides content selection and writing style.
-*   **Adhere to a Centralized, Hierarchical Structure:** To ensure **Discoverability and Structure**, all documentation should reside within a dedicated `docs/` folder at the project root. This folder should be further organized into logical subdirectories based on content type or audience (e.g., `docs/technical/`, `docs/business/`, `docs/api/`, `docs/onboarding/`).
-*   **Employ Audience-Specific Writing Styles:**
-    *   **For Technical Documentation:** Use precise, unambiguous language. Include code examples, API references, architectural diagrams, and step-by-step instructions. Focus on "how it works" and "how to use it."
-    *   **For Business Documentation:** Use high-level, non-technical language. Focus on "what it does," "why it's important," business value, use cases, and impact. Avoid jargon where possible.
-*   **Integrate Documentation with Version Control:** To maintain **Truthfulness and Currency**, all documentation files must be managed under the same version control system as the code. Changes to documentation should be part of the same pull requests or commits as the code changes they reflect.
-*   **Prioritize Clarity and Conciseness:** Use clear headings, bullet points, and code blocks to improve readability. Avoid verbose language. Every sentence should convey necessary information.
-*   **Regularly Review and Update:** Documentation is a living asset. The agent should factor in periodic reviews of existing documentation and link documentation updates directly to relevant code changes or feature deployments.
+1.  **Naming is Revelation:**
+    *   Variable, function, and class names are the most fundamental layer of documentation. They should be descriptive, unambiguous, and complete. A good name makes a comment unnecessary.
+    *   **Example:** Prefer `is_ready_for_processing` over `status_flag`. Prefer `calculate_sales_tax_for_region` over `process_data`.
+
+2.  **The Type System is the Contract:**
+    *   Static type hints are not suggestions; they are a formal, machine-enforceable contract that describes the shape of data flowing through the system.
+    *   Use specific, modern types (`list[str]`, `dict[str, int]`). For complex data structures, define them explicitly using `TypedDict`, `dataclasses`, or Pydantic models. This makes the data's structure part of the code's explicit definition.
+
+3.  **Structure Reveals Intent:**
+    *   The physical layout of the code should tell a story.
+    *   **Functions:** A function should do one thing and do it well. Its small size and focused purpose make its intent obvious.
+    *   **Classes:** A class should represent a single, coherent concept.
+    *   **Modules/Files:** Files should group related functions and classes. A file named `user_authentication.py` clearly communicates its purpose.
+    *   **Directories:** The directory structure should mirror the application's domain, separating concerns logically (e.g., `api/`, `data_processing/`, `utils/`).
+
+4.  **Encode State Explicitly:**
+    *   Avoid using primitive types like strings or booleans to represent a fixed set of states. This is "primitive obsession."
+    *   Instead, use `Enums` to define a finite set of possible states (e.g., `class UserStatus(Enum): ACTIVE = "active"; PENDING = "pending"`). This makes invalid states impossible and the code self-documenting.
+
+5.  **Inline Comments are the Rationale (The "Why")**
+    *   Inline comments are the final and most surgical layer of communication. They are a last resort, used only when the code's structure cannot possibly explain the reason behind a decision.
+    *   **A Good Comment Explains the "Why," Never the "What" or "How."**
+    *   **Valid Reasons for a Comment:**
+        *   **Business Rationale:** `// Apply a 5% surcharge for international orders, as per Q3 business rules.`
+        *   **Technical Trade-offs:** `// Using a less accurate algorithm here for a 10x performance gain.`
+        *   **Workarounds:** `// This value is hardcoded to 2 because the legacy API (v1.2) has a bug.`
+        *   **Intentional Non-Obviousness:** `// This check seems redundant, but it prevents a race condition during user creation.`
 
 ### Specific Rules & Constraints
 
-*   **All documentation files must reside within the `docs/` directory** at the project's root level. No project-specific documentation is permitted outside this directory.
-*   **The `docs/` directory must contain at least the following subdirectories:**
-    *   `docs/technical/`: For developer guides, architecture overviews, setup instructions.
-    *   `docs/business/`: For project overviews, feature summaries, stakeholder reports.
-    *   `docs/api/`: For API specifications and usage examples.
-*   **If** a new code module, significant feature, or API endpoint is created, **then** a corresponding technical documentation file must be initiated within `docs/technical/` or `docs/api/`.
-*   **If** a code change directly impacts the functionality or behavior of a previously documented feature, **then** the agent must review and update the relevant documentation file(s) as part of the same change.
-*   **The agent is forbidden from** including unverified claims or speculative information in any documentation. All factual statements must be based on current code, design, or verified data.
-*   **If** the agent cannot definitively determine the primary audience or the required style for a new document, **then** it must pause and **request explicit clarification** from the user before proceeding with content generation.
-*   **All documentation filenames must be descriptive and use kebab-case** (e.g., `user-onboarding-flow.md`, `api-authentication-guide.md`).
+*   **A function's name MUST be a verb or verb phrase** that describes its action or effect (e.g., `fetch_user_profile`, `validate_input`).
+*   **Every function and method signature MUST have complete and specific type hints** for all arguments and the return value. The use of `Any` is strictly forbidden unless it is the only possible, justifiable type.
+*   **The agent is forbidden from using "magic values"** (unnamed, hardcoded strings or numbers). Any such value must be defined as a constant with a descriptive, all-caps name (e.g., `MAX_RETRIES = 3`).
+*   **The agent is forbidden from writing a function longer than 20 lines of logic.** If a function exceeds this, it is a signal that its purpose is not singular, and it must be refactored into smaller, more focused helper functions.
+*   **Docstrings have a specific, limited purpose:** They are to be used ONLY for providing a copy-pasteable **usage example** or for explaining complex, high-level concepts that cannot be captured by the code's structure alone. They are not for explaining what parameters are—the type hints and names do that.
+*   **Inline comments are a last resort.** Before writing a comment, the agent must first try to refactor the code to make the comment unnecessary. A comment is only permitted to explain the *why* (e.g., the business rationale or a non-obvious trade-off), never the *how*.

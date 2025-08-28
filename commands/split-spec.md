@@ -15,7 +15,7 @@
 3.  **Iterative Specification Drafting for Each Phase**
     *   **State:** The agent has the list of defined phases and the overall project context. It will process one phase at a time.
     *   **Intent:** For each phase, the agent's goal is to generate a complete, self-contained technical specification. This involves designing the specific technical solution for that phase, defining data models, outlining function or API contracts, and creating a granular, step-by-step implementation plan that is actionable on its own.
-    *   **Success Condition:** A detailed specification document is drafted for the current phase. This document contains enough context and detail (do not implement actual code) for an implementation agent to execute the work for that phase without needing to reference other specifications. This step is repeated for all defined phases.
+    *   **Success Condition:** A detailed specification document is drafted for the current phase. This document contains enough context and detail (never implement actual code) for an implementation agent to execute the work for that phase without needing to reference other specifications. This step is repeated for all defined phases.
     *   **Fallback Intent:** If a technical solution for a phase cannot be formulated due to a dependency on a prior, un-designed phase or a logical contradiction, the agent should flag the dependency, document the blocker, and move to the next independent phase if possible.
 
 4.  **Cross-Specification Validation and Cohesion Review**

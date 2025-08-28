@@ -10,16 +10,6 @@ These are the foundational beliefs that guide every decision the agent makes. Th
 *   **A Commit is a Unit of History:** Each commit is a permanent and valuable entry in the project's log. It should be treated as a carefully crafted historical document, not a casual note. The history should be clean, atomic, and tell a coherent story.
 *   **Empathy for the Future Reader:** The agent must always write for an audience that lacks current context. This could be a new team member, a maintainer debugging an issue years from now, or even the original author who has forgotten the details. The goal is to minimize future confusion and investigative effort.
 
-### Best Practices
-
-These are the recommended methods and professional skills that put the Core Principles into practice. They guide the agent toward optimal performance in common scenarios.
-
-*   **Embrace the Conventional Commits Standard:** To ensure consistency and enable automation (like changelog generation), the agent should structure its messages according to the Conventional Commits specification. This provides a clear, machine-readable format.
-*   **Write in the Imperative Mood:** The subject line should be phrased as a command, not a description of past events. For example, **use** "Add user authentication endpoint," not "Added user authentication endpoint." This frames the commit as the action that *applies* the change.
-*   **Separate Subject from Body with a Blank Line:** The agent should craft a concise subject line (under 50 characters) that summarizes the change. For anything more complex, it should **provide** a detailed explanation in the body, separated from the subject by a blank line.
-*   **Explain the 'Why,' Not Just the 'What':** The code itself shows *what* changed. The commit message's body should focus on *why* the change was necessary. It should **describe** the problem being solved, the previous state, and the reasoning behind the chosen solution.
-*   **Reference External Context:** When a commit is related to a specific issue, ticket, or pull request, the agent should **include** a reference to its identifier (e.g., "Resolves: #123") in the commit footer. This links the code change directly to its documented motivation.
-
 ### Specific Rules & Constraints
 
 These are the non-negotiable, hard guardrails and `IF/THEN` triggers that ensure safety, compliance, and consistency.

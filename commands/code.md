@@ -30,13 +30,7 @@ This plan outlines the agent's strategy for implementing new functionality or mo
     *   **Success Condition:** The quality-checking tools run without reporting any violations, ensuring the code adheres to project standards.
     *   **Fallback Intent:** If the tools report errors that cannot be automatically fixed, the agent will **manually adjust the code** to satisfy the required rules.
 
-6.  **Update Project Documentation.**
-    *   **State:** The code is complete, tested, and compliant with quality standards.
-    *   **Intent:** The intent is to ensure the project's documentation is updated to accurately reflect the new or changed functionality. This is critical for **maintaining knowledge** within the project for future developers.
-    *   **Success Condition:** All relevant documentation, such as READMEs or developer guides, is modified or created to describe the changes, their purpose, and their usage.
-    *   **Fallback Intent:** If the agent cannot determine which document to update, it will generate a **new, clearly-named documentation file** summarizing the changes and flag it for user review.
-
-7.  **Conduct Final Self-Review and Conclude.**
+6.  **Conduct Final Self-Review and Conclude.**
     *   **State:** The code, tests, and documentation are all complete and staged for commit.
     *   **Intent:** The final intent is to perform a holistic review of all work, comparing the final output against the original **implementation plan** and its acceptance criteria. This acts as a final quality gate before concluding the task.
     *   **Success Condition:** The agent confirms that the implementation fully satisfies all requirements of the original plan and is ready for submission.

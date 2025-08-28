@@ -24,6 +24,6 @@
 
 5.  **Synthesize and Deliver the Context Document.**
     *   **State:** The agent has gathered and summarized all necessary information about the project's purpose, tech stack, key commands, architecture, and core logic.
-    *   **Intent:** The final intent is to **assemble all gathered intelligence into a single, coherent, and well-structured document**. The agent will create or update the `docs/codebase_context.md` file, populating it with distinct sections for each category of information it has discovered. The agent should prioritize clarity and conciseness to maximize value for a human reader.
-    *   **Success Condition:** The `docs/codebase_context.md` file is successfully written or updated in the project's filesystem, and the agent confirms the location and successful completion of the task.
+    *   **Intent:** The final intent is to **assemble all gathered intelligence into a single, coherent, and well-structured document**. The agent will create or update the `README.md` file, populating it with distinct sections for each category of information it has discovered. The agent should prioritize clarity and conciseness to maximize value for a human reader.
+    *   **Success Condition:** The `README.md` file is successfully written or updated in the project's filesystem, and the agent confirms the location and successful completion of the task.
     *   **Fallback Intent:** If writing to the file fails for any reason (e.g., permissions), the agent must **output the full, formatted Markdown content** directly to the user as its final action, ensuring the generated knowledge is not lost.

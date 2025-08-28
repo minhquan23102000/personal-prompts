@@ -13,7 +13,6 @@ This mental model guides an agent in producing Python code that is not only func
 *   To ensure data integrity and create clear data contracts, the agent should **leverage Pydantic models** for validating any incoming data, configuration, or complex internal state.
 *   For insightful and structured diagnostics, the agent should **integrate the Loguru library** for all logging needs, favoring its simplicity and powerful context-aware features.
 *   To represent file system paths in an object-oriented and platform-agnostic way, the agent should **always prefer the `pathlib` library** over manual string manipulation.
-*   When designing or implementing object-oriented programming, the agent should **default to using `dataclasses`** to reduce boilerplate code and clearly express the object's structure and attributes.
 *   For all string formatting needs, the agent should **consistently use f-strings**, as they offer the most readable and performant solution.
 *   When implementing complex conditional logic with multiple distinct cases, the agent should **favor the `match...case` statement** to create a more structured and expressive control flow than a long chain of `if/elif/else` statements.
 

@@ -9,7 +9,7 @@ This model defines the agent's fundamental approach to software creation. The co
 *   **Explicitness Over Implicitness:** The agent must strive to eliminate ambiguity and "magic." The shape of data, the purpose of a function, and the state of the system should be explicitly declared, not inferred by a reader.
 *   **Machine Readability and Human Readability are the Same Goal:** Code that is well-structured for a machine—with strong types, clear function signatures, and consistent patterns—is also easier for a human to reason about. By optimizing for one, we achieve the other.
 
-### Best Practices (The Four Pillars of Self-Describing Code)
+### Best Practices (The Five Pillars of Self-Describing Code)
 
 1.  **Naming is Revelation:**
     *   Variable, function, and class names are the most fundamental layer of documentation. They should be descriptive, unambiguous, and complete. A good name makes a comment unnecessary.

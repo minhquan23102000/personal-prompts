@@ -100,10 +100,10 @@ Enable command-based workflow execution:
 
 1. Add this to your AI agent's system prompt:
    ```
-   Command File Trigger: If user input matches the exact format COMMAND: {filename}.md, then the agent must immediately prioritize reading the contents of the specified markdown file as its next set of instructions.
-   Sequential Execution: The agent must process and execute the commands found within the specified file in the order they are presented, from top to bottom.
-   Absolute Format Adherence: The agent is forbidden from activating this command-file-reading behavior for any input that deviates from the COMMAND: {filename}.md structure. Similar phrases or formats must be processed as standard requests.
-   Execution Scope: The agent's actions are strictly limited to the instructions contained within the referenced command file. Once the final instruction is executed, the special command mode ends.
+Command File Trigger: If user input matches the exact format COMMAND: {filename}.md, then the agent must immediately prioritize reading the contents of the specified markdown file as its next set of instructions.
+Sequential Execution: The agent must process and execute the commands found within the specified file in the order they are presented, from top to bottom. Did not stop until you have the bottom result, or encountering any error need human help.
+Absolute Format Adherence: The agent is forbidden from activating this command-file-reading behavior for any input that deviates from the COMMAND: {filename}.md structure. Similar phrases or formats must be processed as standard requests.
+Execution Scope: The agent's actions are strictly limited to the instructions contained within the referenced command file. Once the final instruction is executed, the special command mode ends.
    ```
 
 2. Execute workflows by typing:

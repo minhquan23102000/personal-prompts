@@ -30,6 +30,8 @@ class RuleFile:
         ... )
         >>> rule.title
         'Test Rule'
+        >>> rule.estimated_tokens
+        150
     """
     
     path: Path
@@ -38,6 +40,7 @@ class RuleFile:
     description: Optional[str] = None
     file_size: int = 0
     is_readable: bool = True
+    estimated_tokens: int = 0
     
     def __post_init__(self) -> None:
         """Validate the rule file after initialization.
@@ -49,6 +52,21 @@ class RuleFile:
             raise ValueError(f"Rule file does not exist: {self.path}")
         if not self.path.is_file():
             raise ValueError(f"Path is not a file: {self.path}")
+            
+        # Auto-calculate estimated tokens if not provided and file is readable
+        if self.estimated_tokens == 0 and self.file_size > 0:
+            self.estimated_tokens = self.estimate_tokens_from_file_size()
+    
+    def estimate_tokens_from_file_size(self) -> int:
+        """Estimate token count based on file size.
+        
+        Uses the approximation that ~4 characters = 1 token.
+        This is a rough estimate commonly used for OpenAI models.
+        
+        Returns:
+            Estimated number of tokens.
+        """
+        return max(1, self.file_size // 4)
 
 
 @dataclass 

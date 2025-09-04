@@ -60,13 +60,16 @@ class RuleDiscoveryEngine:
                 try:
                     title = self.extract_title(md_file)
                     file_size = md_file.stat().st_size
+                    # Estimate tokens: ~4 characters = 1 token
+                    estimated_tokens = max(1, file_size // 4)
                     
                     rule_file = RuleFile(
                         path=md_file,
                         filename=md_file.name,
                         title=title,
                         file_size=file_size,
-                        is_readable=True
+                        is_readable=True,
+                        estimated_tokens=estimated_tokens
                     )
                     
                     discovered_rules.append(rule_file)

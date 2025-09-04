@@ -46,10 +46,12 @@ class InteractiveSelector:
         table.add_column("Filename", style="magenta")
         table.add_column("Title", style="green")
         table.add_column("Size", justify="right", style="blue")
+        table.add_column("~Tokens", justify="right", style="yellow")
         
         for i, rule in enumerate(self._rules, 1):
             file_size = f"{rule.file_size:,} bytes" if rule.file_size > 0 else "unknown"
-            table.add_row(str(i), rule.filename, rule.title, file_size)
+            token_estimate = f"~{rule.estimated_tokens:,}" if rule.estimated_tokens > 0 else "~0"
+            table.add_row(str(i), rule.filename, rule.title, file_size, token_estimate)
         
         self._console.print(table)
         self._console.print()
@@ -119,9 +121,16 @@ class InteractiveSelector:
         Returns:
             True if user confirms, False otherwise.
         """
-        self._console.print(f"\\n[bold]Selected {len(selected)} rule files:[/bold]")
-        for filename in selected:
-            self._console.print(f"  • {filename}")
+        # Calculate total tokens for selected rules
+        selected_rules = [rule for rule in self._rules if rule.filename in selected]
+        total_tokens = sum(rule.estimated_tokens for rule in selected_rules)
+        total_size = sum(rule.file_size for rule in selected_rules)
+        
+        self._console.print(f"\n[bold]Selected {len(selected)} rule files:[/bold]")
+        for rule in selected_rules:
+            self._console.print(f"  • {rule.filename} [dim](~{rule.estimated_tokens:,} tokens)[/dim]")
+        
+        self._console.print(f"\n[dim]Total: {total_size:,} bytes, ~{total_tokens:,} estimated tokens[/dim]")
         self._console.print()
         
         while True:

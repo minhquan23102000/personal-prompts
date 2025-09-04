@@ -14,13 +14,15 @@ class TestRuleFile:
         """Test creating a RuleFile with a valid file path."""
         # Arrange
         test_file = tmp_path / "test_rule.md"
-        test_file.write_text("# Test Rule\nThis is a test rule.")
+        test_content = "# Test Rule\nThis is a test rule."
+        test_file.write_text(test_content)
         
         # Act
         rule_file = RuleFile(
             path=test_file,
             filename="test_rule.md",
-            title="Test Rule"
+            title="Test Rule",
+            file_size=len(test_content)
         )
         
         # Assert
@@ -28,8 +30,9 @@ class TestRuleFile:
         assert rule_file.filename == "test_rule.md"
         assert rule_file.title == "Test Rule"
         assert rule_file.description is None
-        assert rule_file.file_size == 0
+        assert rule_file.file_size == len(test_content)
         assert rule_file.is_readable is True
+        assert rule_file.estimated_tokens == len(test_content) // 4
 
     def test_rule_file_creation_with_nonexistent_path(self) -> None:
         """Test creating a RuleFile with a non-existent file path raises ValueError."""
@@ -79,6 +82,44 @@ class TestRuleFile:
         assert rule_file.description == "This is a detailed test rule with description."
         assert rule_file.file_size == len(test_content)
         assert rule_file.is_readable is True
+        assert rule_file.estimated_tokens == len(test_content) // 4
+
+    def test_token_estimation(self, tmp_path: Path) -> None:
+        """Test token estimation functionality."""
+        # Arrange
+        test_file = tmp_path / "token_test.md"
+        # Create content with known character count
+        test_content = "x" * 400  # 400 characters should be ~100 tokens
+        test_file.write_text(test_content)
+        
+        # Act
+        rule_file = RuleFile(
+            path=test_file,
+            filename="token_test.md",
+            title="Token Test",
+            file_size=len(test_content)
+        )
+        
+        # Assert
+        assert rule_file.estimated_tokens == 100  # 400 / 4 = 100
+        assert rule_file.estimate_tokens_from_file_size() == 100
+
+    def test_token_estimation_minimum(self, tmp_path: Path) -> None:
+        """Test that token estimation has a minimum of 1."""
+        # Arrange
+        test_file = tmp_path / "tiny.md"
+        test_file.write_text("x")  # 1 character
+        
+        # Act
+        rule_file = RuleFile(
+            path=test_file,
+            filename="tiny.md", 
+            title="Tiny Rule",
+            file_size=1
+        )
+        
+        # Assert
+        assert rule_file.estimated_tokens == 1  # Should be at least 1
 
 
 class TestSelectionMode:

@@ -171,13 +171,17 @@ def list_rules(rules_dir: Path) -> None:
         table.add_column("Filename", style="magenta")
         table.add_column("Title", style="green")
         table.add_column("Size", justify="right", style="blue")
+        table.add_column("~Tokens", justify="right", style="yellow")
         
+        total_tokens = 0
         for rule in available_rules:
             file_size = f"{rule.file_size:,} bytes" if rule.file_size > 0 else "unknown"
-            table.add_row(rule.filename, rule.title, file_size)
+            token_estimate = f"~{rule.estimated_tokens:,}" if rule.estimated_tokens > 0 else "~0"
+            total_tokens += rule.estimated_tokens
+            table.add_row(rule.filename, rule.title, file_size, token_estimate)
         
         console.print(table)
-        console.print(f"\n[dim]Total: {len(available_rules)} rule files[/dim]")
+        console.print(f"\n[dim]Total: {len(available_rules)} rule files, ~{total_tokens:,} estimated tokens[/dim]")
         
     except Exception as e:
         console.print(f"[red]Error listing rules: {e}[/red]")

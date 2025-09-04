@@ -1,6 +1,6 @@
 # Personal Prompts & Workflows
 
-A collection of AI agent prompts and workflows to enhance your development productivity and coding experience.
+A collection of AI agent prompts and workflows to enhance your development productivity and coding experience, now featuring a **Rules Combiner CLI** for easy rule management.
 
 ## 🚀 Quick Start
 
@@ -11,10 +11,20 @@ A collection of AI agent prompts and workflows to enhance your development produ
    ```
    or you can fork this repo for personal use and storage.
 
-2. **How it works:**
+2. **Install dependencies (for CLI usage):**
+   ```bash
+   # Using uv (recommended)
+   uv sync --dev
+   
+   # Or using pip
+   pip install -e .
+   ```
+
+3. **How it works:**
    - **Rules**: Add specific coding rules to your AI agent
    - **Workflows**: Enable command-based workflow execution
    - **Generator**: Create custom prompts and workflows
+   - **CLI Tool**: Combine multiple rules into a single AGENT.md file
 
 ## 🎯 Why This Simple Solution Works Best
 
@@ -86,7 +96,113 @@ mindmap
 
 ## 🛠️ Setup Instructions
 
-### Using Rules
+### Using the Rules Combiner CLI 🚀
+
+The Rules Combiner CLI is a powerful tool that helps you select and combine multiple rule files into a single, well-formatted AGENT.md file.
+
+#### Installation
+
+```bash
+# Install dependencies
+uv sync --dev
+
+# Or with pip
+pip install -e .
+```
+
+#### Usage
+
+**List all available rules:**
+```bash
+# Using uv (recommended)
+uv run python -m rules_combiner.cli list-rules
+
+# Or if installed with pip
+rules-combiner list-rules
+```
+
+**Generate combined AGENT.md file interactively:**
+```bash
+# Using uv (recommended)
+uv run python -m rules_combiner.cli generate
+
+# Or if installed with pip
+rules-combiner generate
+```
+
+#### CLI Options
+
+**Generate command options:**
+- `--rules-dir PATH`: Directory containing rule files (default: rules)
+- `--output PATH`: Output file name (default: AGENT.md)
+- `--no-backup`: Skip backing up existing output file
+- `--no-toc`: Skip generating table of contents
+
+**Example with custom options:**
+```bash
+uv run python -m rules_combiner.cli generate --rules-dir custom_rules --output MY_AGENT.md --no-backup
+```
+
+#### Interactive Selection
+
+When you run the `generate` command, you'll see:
+
+1. **Rule Discovery**: Automatically finds all `.md` files in your rules directory
+2. **Interactive Selection**: Choose rules using various formats:
+   - Individual numbers: `1,3,5`
+   - Ranges: `1-3` or `2-5`
+   - Mixed: `1,3-5,7`
+   - All rules: `all`
+3. **Preview & Confirm**: Review your selection before generating
+4. **Output Generation**: Creates a professional AGENT.md with:
+   - Table of contents with anchor links
+   - Properly formatted sections
+   - Preserved markdown structure
+   - Automatic backup of existing files
+
+#### Example CLI Session
+
+```bash
+$ uv run python -m rules_combiner.cli generate
+
+Discovering rule files in: rules
+Found 9 rule files
+
+Select rules to combine:
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ No. ┃ Filename                      ┃ Title                                     ┃        Size ┃
+┡━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│  1  │ python-coding.md              │ Mental Model: The Modern Python Craftsman │ 2,940 bytes │
+│  2  │ problem-solver.md             │ Mental Model: The Expert Problem Solver   │ 4,704 bytes │
+│  3  │ production-code.md            │ Mental Model: The Deliberate Coder        │ 4,734 bytes │
+└─────┴───────────────────────────────┴───────────────────────────────────────────┴─────────────┘
+
+Selection options:
+• Individual numbers: 1,3,5
+• Ranges: 1-3 or 2-5
+• Mixed: 1,3-5,7
+• All: all
+
+Select rule files (e.g., 1,3-5 or 'all'): 1-3
+
+Selected 3 rule files:
+  • python-coding.md
+  • problem-solver.md
+  • production-code.md
+
+Proceed with this selection? (y/n): y
+
+Processing 3 selected rules...
+Processing: python-coding.md
+Processing: problem-solver.md
+Processing: production-code.md
+
+Writing combined rules to: AGENT.md
+✅ Successfully generated AGENT.md (11,714 bytes)
+Combined 3 rules into 11,714 bytes
+```
+
+### Using Rules Manually
 
 Add rules to your AI agent's system prompt (Claude, Cursor, or other AI tools):
 

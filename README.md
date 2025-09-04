@@ -117,6 +117,10 @@ pip install -e .
 # Using uv (recommended)
 uv run python -m rules_combiner.cli list-rules
 
+# Using wrapper script (no installation needed)
+./rules-combiner list-rules        # Linux/Mac
+rules-combiner.bat list-rules       # Windows
+
 # Or if installed with pip
 rules-combiner list-rules
 ```
@@ -125,6 +129,10 @@ rules-combiner list-rules
 ```bash
 # Using uv (recommended)
 uv run python -m rules_combiner.cli generate
+
+# Using wrapper script (no installation needed)
+./rules-combiner generate           # Linux/Mac
+rules-combiner.bat generate         # Windows
 
 # Or if installed with pip
 rules-combiner generate

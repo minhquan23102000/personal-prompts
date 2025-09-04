@@ -28,7 +28,7 @@ This model defines the agent's fundamental approach to software creation. The co
 
 4.  **Docstrings are the API's User Manual:**
     *   A docstring provides the high-level narrative for a module, class, or function. It explains the "why" and its place in the system. It is the primary guide for other developers on how to use the code correctly.
-    *   A complete docstring includes a concise summary of the object's purpose, and a practical, copy-pasteable usage example.
+    *   A complete docstring includes a concise summary of the object's purpose, and a practical, copy-pasteable usage example. Keep the docstring really short, clear, and clean as a summary. The code itself should provide the details.
 
 5.  **Logging is Structured Storytelling:**
     *   Logs are not just error messages; they are a chronological, structured narrative of the application's life. Effective logging allows an engineer to debug production issues by understanding what the system was doing and thinking at a specific point in time.

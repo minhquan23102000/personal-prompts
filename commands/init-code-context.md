@@ -1,29 +1,89 @@
-1.  **Establish Foundational Understanding.**
-    *   **State:** The agent begins with access to the root directory of the target project.
-    *   **Intent:** The primary intent is to **build a complete map** of the project's structure and **absorb any existing high-level documentation** that explains its purpose and conventions. The agent should perform a comprehensive scan to create a file tree and then read the contents of key files like `README`, `CONTRIBUTING`, or any existing context documents.
-    *   **Success Condition:** The agent has successfully constructed a file tree and loaded the contents of all top-level markdown or text-based documentation files into its working memory.
-    *   **Fallback Intent:** If no primary documentation files are found, the agent should **note their absence** and proceed with the analysis based solely on the file structure and code, flagging that the project's purpose will need to be inferred.
+# Strategic Plan: Comprehensive Architectural Manifest Generation 
 
-2.  **Identify Core Technology and Developer Operations.**
-    *   **State:** The agent possesses the project's file tree and the content of its documentation.
-    *   **Intent:** The goal is to **identify the project's essential vitals**: its technology stack and the specific commands a developer needs to work with it. The agent will inspect dependency management files to determine the language and package manager, and then meticulously scan the absorbed documentation for verbatim commands related to installation, execution, and testing.
-    *   **Success Condition:** The agent has definitively identified the primary programming language and has a list of exact, copy-paste-ready commands for setup, running the app, and running tests.
-    *   **Fallback Intent:** If the documentation does not contain explicit commands, the agent's intent shifts to **inferring the most probable commands** based on the identified package manager (e.g., `npm install` for a `package.json`). These inferred commands must be clearly marked as such in the final report.
+**Objective:** To empower an AI agent with a step-by-step workflow to analyze any existing codebase, infer its architectural properties and operational rules, and synthesize this information into a single, canonical `architecture.manifest.yml` file.
 
-3.  **Map the Architectural Blueprint.**
-    *   **State:** The agent knows the technology stack and the command used to run the application.
-    *   **Intent:** The intent is to **discover the project's high-level architecture** by identifying its main entry point and the conventional locations for source code, tests, and configuration. The agent should use the "run" command to trace the initial file executed and analyze the directory structure for common patterns (`src`, `app`, `tests`, `lib`, `config`).
-    *   **Success Condition:** The agent has identified the file path(s) for the application's entry point(s) and has mapped the primary purpose of the key directories in the project.
-    *   **Fallback Intent:** If the entry point is not obvious from the run command, the agent should **search for conventional entry point filenames** (e.g., `main.py`, `index.js`). If the directory structure is unconventional, the agent should analyze import/dependency graphs between files to identify the most central and interconnected directories, assuming they represent the core source code.
+**Guiding Philosophy:** The process is a systematic investigation, moving from broad project identification to specific rule extraction. The final output must be a complete, machine-readable "owner's manual" for the repository, enabling any future stateless AI agent to operate effectively and safely.
 
-4.  **Trace the Core Logic and Data Flow.**
-    *   **State:** The agent has identified the application's entry point and key source directories.
-    *   **Intent:** The goal is to **create a simplified narrative of the application's behavior**. Starting from the entry point, the agent will trace the primary execution path to identify the most critical modules and summarize their single core responsibility. It will also investigate how configuration is loaded and accessed by the application to understand its runtime environment.
-    *   **Success Condition:** The agent has produced a brief, high-level summary of a typical request or data lifecycle, a list of critical modules with their one-sentence purpose, and an explanation of the configuration strategy.
-    *   **Fallback Intent:** If a full execution trace proves too complex, the agent's intent changes to **summarizing the static roles of key modules**. It will analyze the files in the main source directory, prioritizing those that are most frequently imported by other modules, and summarize their purpose based on their internal code and structure.
+### Step 1: Initial Reconnaissance & Tooling Discovery
 
-5.  **Synthesize and Deliver the Context Document.**
-    *   **State:** The agent has gathered and summarized all necessary information about the project's purpose, tech stack, key commands, architecture, and core logic.
-    *   **Intent:** The final intent is to **assemble all gathered intelligence into a single, coherent, and well-structured document**. The agent will create or update the `README.md` file, populating it with distinct sections for each category of information it has discovered. The agent should prioritize clarity and conciseness to maximize value for a human reader.
-    *   **Success Condition:** The `README.md` file is successfully written or updated in the project's filesystem, and the agent confirms the location and successful completion of the task.
-    *   **Fallback Intent:** If writing to the file fails for any reason (e.g., permissions), the agent must **output the full, formatted Markdown content** directly to the user as its final action, ensuring the generated knowledge is not lost.
+*   **Current State:** The agent has access to the root directory of the project but holds no prior knowledge.
+*   **Primary Intent:** To establish a foundational understanding of the project's identity, technology stack, and configured development tools. This is the first layer of context.
+*   **Actions:**
+    1.  **Scan Metadata:** Read and parse root-level files like `README.md`, `package.json` (for Node.js), `pom.xml` (for Java/Maven), `pyproject.toml` (for Python), `go.mod` (for Go), etc.
+    2.  **Identify Tooling:** Specifically search for common configuration files for linters, formatters, and style guides (e.g., `.eslintrc.json`, `.prettierrc`, `checkstyle.xml`, `.flake8`, `STYLE_GUIDE.md`).
+*   **Manifest Fields Populated:**
+    *   `system_name`: Inferred from the project name in a configuration file or the repository's directory name.
+    *   `system_purpose`: Extracted from the primary description in the `README.md`.
+    *   `primary_language_framework`: Determined from the project's dependency management file.
+    *   `operational_rules.tooling_configurations`: Each discovered tooling configuration file is mapped with its key (e.g., `linter`, `formatter`) and its relative path.
+*   **Fallback Intent:** If metadata files are missing, the agent will analyze file extensions to determine the language. It will populate text fields with placeholder values like `"[AUTO-GENERATED] Please provide a system purpose."` and set tooling paths to `null`.
+
+### Step 2: Bounded Context Identification & Mapping
+
+*   **Current State:** The agent knows the project's purpose and tech stack.
+*   **Primary Intent:** To deconstruct the codebase into its primary, high-level business domains or modules. This step is the core of the architectural discovery.
+*   **Actions:**
+    1.  **Locate Source Directory:** Identify the main source code directory (commonly `src/`, `app/`, `packages/`, or the project root itself).
+    2.  **Analyze Subdirectories:** List the subdirectories within the source directory. The agent will use heuristics and its natural language understanding to identify directories whose names represent business concepts (e.g., `billing`, `user_management`, `inventory_service`, `ticket-api`) rather than generic patterns (e.g., `utils`, `helpers`, `components`).
+*   **Manifest Fields Populated:**
+    *   `contexts`: A list is created. For each directory identified as a Bounded Context, a new entry is added:
+        *   `name`: A PascalCase version of the directory name (e.g., `user_management` becomes `UserManagement`).
+        *   `path`: The full relative path to the directory from the root.
+        *   `description`: A placeholder is generated for human review, e.g., `"[AUTO-GENERATED] Manages the 'UserManagement' domain. Please refine this description."`
+*   **Fallback Intent:** If the structure is monolithic or flat, the agent will identify the single main source directory as the sole context (e.g., `name: Monolith, path: ./src`). It will report to the user that the architecture appears non-modular, which is a critical piece of information in itself.
+
+### Step 3: Architectural Pattern Inference
+
+*   **Current State:** The agent has a map of the identified Bounded Contexts.
+*   **Primary Intent:** To infer the architectural pattern(s) that govern the codebase, providing a crucial mental model for how the code is organized and how it should be modified.
+*   **Actions:**
+    1.  **Analyze Macro-Structure:** Evaluate the relationship between the identified contexts.
+    2.  **Analyze Micro-Structure:** For each context, examine its internal subdirectory structure.
+*   **Manifest Fields Populated:**
+    *   `architectural_patterns`: A list is populated based on evidence:
+        *   If multiple contexts were found -> add `"Domain-Driven Design"`.
+        *   If a context contains subdirectories like `domain`, `application`, and `infrastructure` -> add `"Hexagonal Architecture"`.
+        *   If the root contains a `docker-compose.yml` or Kubernetes manifests referencing multiple context-specific services -> add `"Microservices"`.
+        *   If only a single context was found -> add `"Monolith"`.
+*   **Fallback Intent:** If the structure is ambiguous, the agent will set the field to `["unclassified"]` and notify the user that it could not confidently identify a standard pattern.
+
+### Step 4: Rule and Guideline Discovery
+
+*   **Current State:** The agent understands the system's structure and patterns.
+*   **Primary Intent:** To discover and codify the human-readable rules and processes that govern development within the repository.
+*   **Actions:**
+    1.  **Targeted File Parsing:** The agent will specifically locate and perform a natural language analysis of files like `CONTRIBUTING.md`, `PULL_REQUEST_TEMPLATE.md`, `README.md`, and any documents within a `/docs` or `/architecture` directory.
+    2.  **Rule Extraction:** It will look for imperative statements, keywords ("must", "should", "forbidden"), and section headers ("Testing Policy", "Commit Message Format") to extract rules.
+*   **Manifest Fields Populated:**
+    *   `operational_rules.architectural_guardrails`: Populated with extracted rules about dependencies, module communication, and design principles.
+    *   `operational_rules.code_quality_gates`: Populated with rules about testing requirements, code coverage, and review processes.
+    *   `operational_rules.contribution_guidelines`: Populated with rules about commit message formats, branching strategies, and pull request procedures.
+*   **Fallback Intent:** If these documentation files do not exist or contain no clear rules, the agent will populate each rule list with a single, placeholder string: `["[AUTO-GENERATED] No explicit rules found. Please define them here."]` This makes the absence of rules explicit and prompts the user for input.
+
+### Step 5: Discovery of Key Artifact Locations
+
+*   **Current State:** The agent has a near-complete picture of the architecture and its rules.
+*   **Primary Intent:** To locate the precise paths to important, non-code assets that are critical for development and interaction.
+*   **Actions:**
+    1.  **Perform Targeted Search:** The agent will search the entire repository for common directory names (`/contracts`, `/schemas`, `/docs/adr`, `/tests`, `/e2e`) and file types (`*.openapi.yml`, `*.proto`, `*.graphql`, `*.md`).
+*   **Manifest Fields Populated:**
+    *   `artifact_locations`: This object is populated with the discovered relative paths. If a specific artifact type is not found, its value is explicitly set to `null`.
+
+### Step 6: Synthesis and Manifest Generation
+
+*   **Current State:** The agent has gathered all required data points.
+*   **Primary Intent:** To assemble all the discovered and inferred information into a single, well-formatted, and syntactically valid `architecture.manifest.yml` file.
+*   **Actions:**
+    1.  **Construct YAML:** The agent will build a YAML string that conforms precisely to the defined manifest structure.
+    2.  **Write to File:** The agent will save this string to a new file named `architecture.manifest.yml` in the project's root directory.
+*   **Fallback Intent:** If a critical piece of information (like the Bounded Contexts) could not be determined, the agent will still generate the file but will use placeholder values and add a comment at the top of the file indicating its draft status.
+
+### Step 7: Presentation and User Validation
+
+*   **Current State:** A draft `architecture.manifest.yml` exists in the file system.
+*   **Primary Intent:** To present the auto-generated manifest to the user for final validation, refinement, and approval. This human-in-the-loop step is non-negotiable to ensure accuracy.
+*   **Actions:**
+    1.  **Display Manifest:** The agent will output the file path of the generated manifest to the user.
+    2.  **Request Feedback:** The agent will explicitly ask the user to review the inferred sections, such as `contexts`, `architectural_patterns`, and `operational_rules`, as these are most subject to interpretation.
+    3.  **Apply Corrections:** The agent will apply any requested changes directly to the `architecture.manifest.yml` file, saving the final, user-approved version.
+*   **Fallback Intent:** If the user does not provide feedback, the agent will add a comment to the top of the generated file, such as `# WARNING: This is an auto-generated draft. Please review for accuracy before use.`, to ensure the file is not treated as a definitive source of truth without human validation.

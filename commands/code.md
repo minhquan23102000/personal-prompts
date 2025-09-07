@@ -1,37 +1,77 @@
-This plan outlines the agent's strategy for implementing new functionality or modifying existing code using a rigorous, test-driven development (TDD) methodology. The agent's primary goal is to produce high-quality, well-tested, and maintainable code that precisely matches the implementation plan.
+# Strategic Plan: Manifest-Driven Code Implementation
 
-1.  **Establish Technical Context.**
-    *   **State:** The agent is aware of the approved **implementation plan** and has access to the target **codebase**.
-    *   **Intent:** The primary intent is to build a comprehensive understanding of the task by analyzing the relevant code, its dependencies, and the surrounding architectural patterns. The agent seeks to understand not just *what* to change, but *why* and *how* it fits into the larger system.
-    *   **Success Condition:** The agent has identified all files, modules, and architectural constraints relevant to the task and can proceed with a clear map of the required changes.
-    *   **Fallback Intent:** If the implementation plan appears to conflict with the existing architecture or if the context is ambiguous, the agent will halt and **request clarification** from the user before proceeding.
+**Objective:** To execute an approved `Task Specification` by writing, testing, and validating code. This workflow is rigorously guided by the rules and structures defined in the `architecture.manifest.yml` to ensure all contributions are architecturally compliant, high-quality, and that the manifest itself is updated to reflect any significant architectural changes.
 
-2.  **Prepare an Isolated Workspace.**
-    *   **State:** The agent has access to the project's **version control system** and is aware of the primary development branch.
-    *   **Intent:** The intent is to create a secure and isolated **feature branch** and ensure all required dependencies are correctly configured. This prevents any disruption to the main codebase during development.
-    *   **Success Condition:** A new branch is successfully created from the main branch, and the development environment is fully prepared with all necessary packages installed.
-    *   **Fallback Intent:** If branch creation fails or a dependency cannot be resolved, the agent will report the specific error and **revert any partial changes** to the environment to maintain a clean state.
+## 1. Bootstrap Execution Context from Artifacts
 
-3.  **Execute the Test-Implement-Refactor Cycle.**
-    *   **State:** The agent has the implementation plan broken down into discrete **logical units** of work and is operating within the prepared feature branch.
-    *   **Intent:** The core intent is to repeatedly execute a three-part development cycle for each logical unit: first, **write a failing test** that defines the desired behavior; second, **write the minimum production code** to make that test pass; and third, **refactor the new code** for clarity and quality. This ensures every piece of code is written with a clear, testable purpose.
-    *   **Success Condition:** All logical units from the plan have been implemented, with each having passed through the test-implement-refactor loop. The code is functional and internally consistent.
-    *   **Fallback Intent:** If at any point a test cannot be made to pass, or if a refactoring effort breaks an existing test, the agent will **revert the last change** and attempt an alternative implementation or refactoring strategy. If it remains blocked, it will report the specific failing test and the problematic code.
+*   **State:** The agent has been given an approved `Task Specification` document (e.g., `docs/specs/123-implement-2fa.md`) and has access to the codebase.
+*   **Primary Intent:** To load all necessary context and constraints into its working memory for the duration of the task. The agent reads the "manual" before touching the "engine."
+*   **Actions:**
+    1.  **Parse Manifest:** The agent reads the root `architecture.manifest.yml` to load all architectural patterns, rules, and artifact locations.
+    2.  **Parse Specification:** The agent reads the approved `Task Specification` and any linked `ADR` to understand the specific goal, implementation plan, and testing strategy for this task.
+    3.  **Cross-Reference:** The agent confirms that the plan in the specification is compatible with the rules in the manifest.
+*   **Success Condition:** The agent has a complete, in-memory model of the task, including the "what" (from the spec) and the "how" (from the manifest's rules).
+*   **Fallback Intent:** If the `Task Specification` contains steps that violate a rule in the `architecture.manifest`, the agent will halt, report the specific rule conflict, and request a revised specification.
 
-4.  **Validate System-Wide Integration.**
-    *   **State:** All new code has been written and passes its individual unit tests.
-    *   **Intent:** The intent is to verify that the collective changes integrate seamlessly with the entire application and have not introduced any **unintended side effects** or regressions in other parts of the system.
-    *   **Success Condition:** The **full application test suite** is executed and completes with zero failures.
-    *   **Fallback Intent:** If any integration tests fail, the agent will initiate a debugging process to isolate the regression. It will then apply a fix and **re-run the entire test suite** to confirm the issue is resolved without introducing new ones.
+## 2. Prepare Isolated and Compliant Workspace
 
-5.  **Enforce Code Quality and Consistency.**
-    *   **State:** The code is fully implemented and has passed all automated tests.
-    *   **Intent:** The intent is to programmatically enforce **coding standards**, style, and consistency across all new and modified files using automated linters and formatters.
-    *   **Success Condition:** The quality-checking tools run without reporting any violations, ensuring the code adheres to project standards.
-    *   **Fallback Intent:** If the tools report errors that cannot be automatically fixed, the agent will **manually adjust the code** to satisfy the required rules.
+*   **State:** The agent has its full execution context.
+*   **Primary Intent:** To create a secure, isolated feature branch that adheres to the project's contribution guidelines.
+*   **Actions:**
+    1.  **Branch Creation:** The agent checks the `operational_rules.contribution_guidelines` in the manifest for any specific branching strategy (e.g., `feature/TICKET-123-description`). It creates a new branch from the primary development branch following this rule.
+    2.  **Environment Sync:** The agent ensures all required dependencies are installed and the environment is clean.
+*   **Success Condition:** A new, correctly named branch is created and checked out, and the development environment is ready.
+*   **Fallback Intent:** If branch creation fails or a dependency cannot be resolved, the agent will report the error and ensure the workspace is reverted to a clean state on the main branch.
 
-6.  **Conduct Final Self-Review and Conclude.**
-    *   **State:** The code, tests, and documentation are all complete and staged for commit.
-    *   **Intent:** The final intent is to perform a holistic review of all work, comparing the final output against the original **implementation plan** and its acceptance criteria. This acts as a final quality gate before concluding the task.
-    *   **Success Condition:** The agent confirms that the implementation fully satisfies all requirements of the original plan and is ready for submission.
-    *   **Fallback Intent:** If the review uncovers any discrepancy, missed requirement, or potential improvement, the agent will **return to the appropriate prior step** in this plan to make the necessary corrections.
+## 3. Execute the Guided Test-Implement-Refactor Cycle
+
+*   **State:** The agent is on the feature branch with a clear implementation plan broken down into logical units.
+*   **Primary Intent:** To repeatedly execute a TDD cycle for each logical unit, ensuring every change is purposeful, test-driven, and compliant with the architectural patterns defined in the manifest.
+*   **Actions (for each logical unit):**
+    1.  **Write a Failing Test:** Based on the `Testing Strategy` in the spec, write a unit test that defines the desired behavior and fails.
+    2.  **Write Compliant Code:** Write the minimum production code required to make the test pass. The agent **must** adhere to the `architectural_patterns` (e.g., placing business logic in the `domain` layer if "Hexagonal Architecture" is specified).
+    3.  **Refactor for Quality:** Refactor the new code and test for clarity, performance, and adherence to project style.
+*   **Success Condition:** All logical units from the spec are implemented, and all new unit tests are passing. The code structure respects the architectural patterns.
+*   **Fallback Intent:** If a test cannot be made to pass, the agent will revert the change for that unit, re-evaluate its approach, and try an alternative implementation. If it remains blocked, it will report the specific failing test and the problematic code, requesting guidance.
+
+## 4. Validate System-Wide Integration and Contracts
+
+*   **State:** All new code is written and passes its unit tests.
+*   **Primary Intent:** To verify that the changes integrate seamlessly with the entire application and do not violate any cross-context contracts.
+*   **Actions:**
+    1.  **Run Full Test Suite:** The agent locates the primary test suite via `artifact_locations.tests` in the manifest and executes it.
+    2.  **Verify Contracts (if applicable):** If the `Task Specification` noted a change to a public contract, the agent will run any contract validation tests or lint the schema files located at `artifact_locations.contracts`.
+*   **Success Condition:** The full application test suite and any contract validation tests complete with zero failures.
+*   **Fallback Intent:** If any integration or contract tests fail, the agent will initiate a debugging process to fix the regression. It will then **re-run the entire validation suite** from the beginning to ensure the fix did not introduce new issues.
+
+## 5. Enforce Programmatic Quality Gates
+
+*   **State:** The code is fully implemented and has passed all automated tests.
+*   **Primary Intent:** To programmatically enforce the project's coding standards and style rules as defined in the manifest.
+*   **Actions:**
+    1.  **Locate Tooling Configs:** The agent gets the paths to the linter and formatter configurations from `operational_rules.tooling_configurations` in the manifest.
+    2.  **Run Tools:** The agent executes the linter and formatter across all new and modified files.
+*   **Success Condition:** The quality-checking tools run without reporting any violations.
+*   **Fallback Intent:** The agent will first attempt to let the tools automatically fix any issues. If errors remain, it will manually adjust the code to satisfy the required rules.
+
+## 6. Update Architectural Artifacts
+
+*   **State:** The code is complete, tested, and compliant.
+*   **Primary Intent:** To update the `architecture.manifest.yml` and any related ADRs to reflect the changes made, ensuring the system's documentation remains perfectly in sync with its implementation.
+*   **Actions:**
+    1.  **Check for Significance:** The agent reviews the implemented changes against the criteria for architectural significance (e.g., a new context was created, a major dependency was added as per an ADR).
+    2.  **Update Manifest:** If a significant change occurred, the agent modifies the `architecture.manifest.yml` file. For example, if a new `Reporting` service was created, it adds a new entry to the `contexts` list.
+    3.  **Update ADR Status:** If the work was associated with an ADR, the agent changes the status in the ADR file from "Proposed" to "Accepted" or "Implemented".
+*   **Success Condition:** The `architecture.manifest.yml` and any relevant ADRs are updated to accurately reflect the new state of the codebase. These changes are staged for commit alongside the source code.
+*   **Fallback Intent:** If the agent is unable to programmatically update the manifest or ADR (e.g., due to a complex merge conflict), it will add a high-priority comment to the pull request description, explicitly stating which files need to be manually updated by the human reviewer.
+
+## 7. Finalize Contribution for Review
+
+*   **State:** The code, tests, and all architectural documentation are complete, compliant, and staged for commit.
+*   **Primary Intent:** To package the entire body of work into a clean, professional contribution that is ready for human review.
+*   **Actions:**
+    1.  **Final Self-Review:** The agent performs a final check, comparing the completed code and manifest updates against the `Task Specification` to ensure all requirements have been met.
+    2.  **Commit Changes:** The agent commits all staged changes (including code, tests, and manifest/ADR updates) using a message format that complies with the `operational_rules.contribution_guidelines`.
+    3.  **Push and Open Pull Request:** The agent pushes the feature branch to the remote repository and opens a pull request, populating the description with a summary of the changes and a link back to the `Task Specification` and `ADR` documents.
+*   **Success Condition:** A pull request is successfully opened, containing a complete and self-consistent set of changes to both the application and its architectural documentation, ready for a human to review and merge.
+*   **Fallback Intent:** If the final review uncovers a discrepancy, the agent will **return to the appropriate prior step** (e.g., Step 3 to fix a logic error, Step 6 to correct a manifest update) before attempting to finalize the contribution again.

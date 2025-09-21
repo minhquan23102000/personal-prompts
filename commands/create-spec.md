@@ -22,13 +22,13 @@
 
 ### 4. ADR Generation (Conditional)
 *   **State:** The agent has a high-level solution and has determined that `requires_adr` is `true`.
-*   **Primary Intent:** To draft a formal Architectural Decision Record that justifies the proposed high-level solution. This record will detail the context, the decision, and the anticipated consequences, providing a clear rationale for the architectural change.
-*   **Success Condition:** A new, well-structured ADR draft is created in the appropriate documentation directory at docs/adr/ directory..
+*   **Primary Intent:** The agent locates the ADR directory and determines the next ADR number from the manifest. To draft a formal Architectural Decision Record that justifies the proposed high-level solution. This record will detail the context, the decision, and the anticipated consequences, providing a clear rationale for the architectural change. 
+*   **Success Condition:** A new, well-structured ADR draft is created in the appropriate documentation directory at docs/adr/ directory. 
 *   **Fallback Intent:** If the agent cannot locate the ADR directory or determine the next sequential number, it will notify the user and propose including the ADR content directly within the main Task Specification.
 
 ### 5. Detailed Implementation Blueprinting
 *   **State:** The agent has a confirmed high-level approach and, if necessary, a drafted ADR.
-*   **Primary Intent:** To create a detailed, file-level implementation plan by performing a deep analysis of the code within the localized context(s). The agent will identify existing patterns for reuse, map out specific code to be modified or created, and define the corresponding test cases.
+*   **Primary Intent:** To create a detailed, file-level implementation plan by performing a deep analysis of the code within the localized context(s). The agent will identify existing patterns for reuse, map out specific code to be modified or created, and define the corresponding test cases. Linked ADR (if applicable): A direct link to the newly drafted ADR file.
 *   **Success Condition:** The agent has produced a complete, internal technical blueprint that lists all required file creations, modifications, and test plan adjustments.
 *   **Fallback Intent:** If the deep analysis reveals unexpected technical blockers or complexities that invalidate the high-level solution, the agent will return to **Step 3** to reformulate the approach with this new information.
 

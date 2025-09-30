@@ -1,39 +1,46 @@
-# Strategic Plan: Integration Test Script Generation
+# Strategic Plan: Integration Debug Script Generation
 
-This plan outlines the workflow for an agent to autonomously generate a complete, robust, and idempotent Python integration test script based on user-provided requirements.
+### Plan Metadata
 
-1.  ### Deconstruct the User Request
-    *   **State:** The agent has received the user's prompt containing the goal, requirements, and specific context for the test script.
-    *   **Intent:** To meticulously parse the user's input and extract all critical parameters. This includes the **target function/method**, all **dependencies**, the required **environment variables**, and the structure of the **sample data**. The goal is to build a structured understanding of the test's scope.
-    *   **Success Condition:** The agent has successfully identified and stored all contextual variables provided by the user. The agent is fully aware of what needs to be tested and the environment it will run in.
-    *   **Fallback Intent:** If critical information is missing or ambiguous (e.g., the function name is listed as `[Insert the name of the function or method]`), the agent must prompt the user for the necessary details before proceeding.
+*   **Core Intent:** To automatically generate a simple, straightforward integration test script for a given code implementation, enabling quick verification in a real-world staging environment.
+*   **Guiding Principles:**
+    *   **Simplicity Over Coverage:** The script's primary goal is to be easily understood and executed, not to cover every edge case. Focus on the "happy path."
+    *   **Environment-Awareness:** The test must be configured to run against a specific, real environment (e.g., staging), using actual services and data patterns.
+    *   **Isolation of Failure:** The script should test a single, core function or method to ensure that any failure can be quickly traced back to that specific component.
+*   **Required Context & State:**
+    *   The source code of the target function, method, or class.
+    *   A description or access to the target deployment environment (e.g., staging API endpoints, database credentials, required headers).
+    *   A sample of valid input data required to execute the target function.
+*   **Success Metrics:** A complete, executable test script is generated and saved to the `/debug` directory. When run against the target environment, the script executes without errors and successfully validates the primary function's expected outcome.
 
-2.  ### Generate the Script Foundation and Configuration
-    *   **State:** The agent has a complete, structured understanding of the test requirements.
-    *   **Intent:** To create the initial Python script structure. This involves generating the necessary **import statements** (e.g., for `os`, `unittest`, and environment variable handling) and writing the code block responsible for loading the specified **environment variables** from a `.env` file.
-    *   **Success Condition:** A Python script is created with the basic boilerplate, including imports and a functional configuration section that prepares the environment for the test.
-    *   **Fallback Intent:** If a non-standard library is required for a dependency, the agent should add a comment at the top of the script indicating the necessary installation command (e.g., `# Requirement: pip install python-dotenv`).
+### Execution Workflow
 
-3.  ### Implement the Test Setup Logic
-    *   **State:** The script's foundation is in place. The agent knows the system dependencies and has the sample data structure.
-    *   **Intent:** To write the code that programmatically **creates the necessary preconditions** for the test to run in isolation. This could involve connecting to a database, using the sample data to insert a new record, or initializing a client for an external API. The logic should be placed within a dedicated setup function or block.
-    *   **Success Condition:** The script contains a clearly defined setup section that reliably creates all required test data and resources, ensuring the test is self-contained.
-    *   **Fallback Intent:** If the setup logic for a dependency is highly complex or proprietary, the agent should generate a placeholder function with a clear docstring and comments explaining what the user needs to implement manually (e.g., `def _create_test_user_in_legacy_crm(): # TODO: Implement logic to create a user...`).
+1.  **Analyze the Implementation Context**
+    *   **State:** The agent has the source code for the target implementation.
+    *   **Intent:** To identify the primary public-facing function or method that serves as the main entry point for the implementation's logic.
+    *   **Success Condition:** The agent has successfully identified and isolated the target function/method signature, including its name and required arguments.
+    *   **Fallback Intent:** If multiple public methods exist, request the user to specify which one should be the focus of the debug script.
 
-4.  ### Implement the Core Execution and Verification
-    *   **State:** The setup logic is complete. The agent knows the target function and the expected successful outcome.
-    *   **Intent:** To write the central piece of the test. This involves **calling the target function/method** using the data created during the setup phase. Immediately following the execution, the agent will generate one or more **assertion statements** to validate that the outcome was successful.
-    *   **Success Condition:** The script contains a test method that executes the specified function and includes clear, meaningful assertions that confirm the function behaved as expected (e.g., checking a response status or querying the database to confirm a change).
-    *   **Fallback Intent:** If the exact success criteria are not explicitly defined, the agent should generate the function call and add a commented-out assertion with a placeholder, prompting the user to define the specific condition to check (e.g., `# self.assertEqual(result['status'], 'completed') # TODO: Confirm expected status`).
+2.  **Identify Environmental Dependencies**
+    *   **State:** The agent knows the target function/method.
+    *   **Intent:** To scan the implementation's code to identify all external dependencies, such as API calls, database connections, or environment variables required for execution.
+    *   **Success Condition:** A list of all required environmental configurations and external service endpoints is created.
+    *   **Fallback Intent:** If dependencies cannot be automatically determined, prompt the user to provide the necessary connection details and credentials for the target environment.
 
-5.  ### Implement the Cleanup Logic
-    *   **State:** The execution and verification steps are defined. The agent is aware of all resources and data created during the setup phase.
-    *   **Intent:** To write the code that **reverses all actions taken in the setup phase**, ensuring the test is idempotent and leaves the environment clean. This involves deleting any created database records, closing connections, or removing temporary files.
-    *   **Success Condition:** The script contains a clearly defined teardown section that programmatically removes all resources created during the test, leaving the system in its original state.
-    *   **Fallback Intent:** If the cleanup action is ambiguous, the agent should generate a placeholder cleanup function with comments detailing which resources should be removed, leaving the specific implementation to the user.
+3.  **Construct the Test Harness**
+    *   **State:** The agent has the target function, its arguments, and a list of environmental dependencies.
+    *   **Intent:** To generate the boilerplate code for the test script, including importing the target function, setting up environment variables, and configuring any required clients (e.g., an HTTP client).
+    *   **Success Condition:** A script file is created that successfully initializes the environment and imports the target code without errors.
+    *   **Fallback Intent:** If imports or initializations fail, analyze the error and attempt to correct the file path or initialization logic. If unsuccessful, report the error to the user.
 
-6.  ### Finalize and Save the Script
-    *   **State:** All logical components of the script (configuration, setup, execution, verification, cleanup) have been generated.
-    *   **Intent:** To assemble all generated code into a single, well-commented, and readable Python file. The agent will then save this file to the specified location (`tests/integration/`) with a descriptive name derived from the target function.
-    *   **Success Condition:** A complete, ready-to-run Python script is successfully saved to the correct directory.
-    *   **Fallback Intent:** If the agent encounters a permission error or cannot access the specified file path, it will instead output the complete script content in a single block for the user to copy and save manually.
+4.  **Implement the Core Test Logic**
+    *   **State:** The agent has the test harness and a sample of valid input data.
+    *   **Intent:** To write the specific lines of code that call the target function with the sample data and then perform a single, simple check to validate the outcome.
+    *   **Success Condition:** The script now includes a call to the target function and a basic assertion that confirms a successful execution (e.g., checks for a `200 OK` status code, or verifies that the output is not null).
+    *   **Fallback Intent:** If a simple success assertion is not obvious, create a log output of the function's result and add a comment instructing the user on what to manually verify.
+
+5.  **Finalize and Place the Script**
+    *   **State:** The agent has a complete and functional test script.
+    *   **Intent:** To add comments to the script explaining its purpose and how to run it, and then save the final file into the designated `debug` folder.
+    *   **Success Condition:** The commented script is correctly named and saved in the target directory.
+    *   **Fallback Intent:** If the `debug` directory does not exist, create it first and then save the file. If file permissions fail, notify the user of the failure.

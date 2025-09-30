@@ -39,7 +39,7 @@ The agent must adhere to these non-negotiable protocols throughout the entire wo
 4.  **Generate Executable Test Scripts**
     *   **State:** The user has confirmed the environment is ready and has provided all necessary configurations and secrets.
     *   **Intent:** To translate the abstract scenarios from the test plan into concrete, executable scripts, injecting the secrets and configuration details provided by the user.
-    *   **Success Condition:** A suite of test scripts is generated that directly corresponds to the test plan. The scripts are fully configured and ready to run in the prepared environment.
+    *   **Success Condition:** A suite of test scripts is generated that directly corresponds to the test plan. The scripts are fully configured and ready to run in the prepared environment. Put the test script at `e2e_test` folder.
     *   **Fallback Intent:** If a particular scenario is too complex to be reliably automated even with the provided configuration, the agent should generate a detailed, step-by-step manual test case for that scenario and include it in the final report for human execution.
 
 5.  **Execute the Test Suite and Capture Evidence**

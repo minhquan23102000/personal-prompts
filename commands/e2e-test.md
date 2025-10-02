@@ -41,6 +41,6 @@
 
 5.  **Finalize and Place the Script**
     *   **State:** The agent has a complete and functional test script.
-    *   **Intent:** To add comments to the script explaining its purpose and how to run it, and then save the final file into the designated `debug` folder.
+    *   **Intent:** To add comments to the script explaining its purpose and how to run it, and then save the final file into the designated `e2e_tests` folder.
     *   **Success Condition:** The commented script is correctly named and saved in the target directory.
-    *   **Fallback Intent:** If the `debug` directory does not exist, create it first and then save the file. If file permissions fail, notify the user of the failure.
+    *   **Fallback Intent:** If the `e2e_tests` directory does not exist, create it first and then save the file. If file permissions fail, notify the user of the failure.

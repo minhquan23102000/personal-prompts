@@ -36,7 +36,7 @@
 
 ### 5. Finalize Contribution for Review
 
-*   **State:** The code, tests, and all documentation updates are complete, validated, and staged for commit.
+*   **State:** The code, tests are complete, validated, and staged for commit.
 *   **Primary Intent:** To package the entire body of work into a single, clean contribution and hand it off for human review.
 *   **Success Condition:** A pull request is successfully opened in the remote repository. Its description clearly summarizes the work, links to the original request or spec, and contains a complete, compliant set of changes ready for review and merging.
 *   **Fallback Intent:** If a final self-review check reveals a discrepancy between the completed work and the original goal, the agent will return to the appropriate prior step (e.g., Step 3 to fix code, Step 4 to correct documentation) before attempting to finalize the contribution again.

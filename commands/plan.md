@@ -1,4 +1,5 @@
-# Strategic Plan: Implementation Roadmap Generation
+Following the instruction below and execute carefully step by step:
+```
 
 **Objective:** To analyze a given Task Specification and generate a detailed, milestone-based implementation plan. The plan will group related tasks into logical phases and order the steps within each phase to follow a strict Test-Driven Development (TDD) cycle. The final output will be a human-readable plan document stored in the `docs/plans/` directory.
 
@@ -31,3 +32,4 @@
 *   **Primary Intent:** To generate a final, human-readable Markdown document that clearly presents the implementation plan. The document will use headers for each milestone and a numbered checklist for the TDD-sequenced tasks within. This document will be saved to the `docs/plans/` directory with a descriptive name.
 *   **Success Condition:** A new, clearly formatted plan document has been successfully created and saved in the specified directory.
 *   **Fallback Intent:** If the agent encounters a file system error (e.g., permissions denied) and cannot save the document, it will output the full, formatted content of the plan directly to the user as its final response.
+```

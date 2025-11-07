@@ -1,6 +1,7 @@
-# Strategic Plan: Integration Debug Script Generation
+Following the instruction below and execute carefully step by step:
+```
 
-### Plan Metadata
+### Metadata
 
 *   **Core Intent:** To automatically generate a simple, straightforward integration test script for a given code implementation, enabling quick verification in a real-world staging environment.
 *   **Guiding Principles:**
@@ -44,3 +45,4 @@
     *   **Intent:** To add comments to the script explaining its purpose and how to run it, and then save the final file into the designated `e2e_tests` folder.
     *   **Success Condition:** The commented script is correctly named and saved in the target directory.
     *   **Fallback Intent:** If the `e2e_tests` directory does not exist, create it first and then save the file. If file permissions fail, notify the user of the failure.
+```

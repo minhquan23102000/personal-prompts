@@ -1,5 +1,5 @@
-# Strategic Plan: Comprehensive Architectural Manifest Generation 
-
+Following the instruction below and execute carefully step by step:
+```
 **Objective:** To empower an AI agent with a step-by-step workflow to analyze any existing codebase, infer its architectural properties and operational rules, and synthesize this information into a single, canonical `architecture.manifest.yml` file.
 
 **Guiding Philosophy:** The process is a systematic investigation, moving from broad project identification to specific rule extraction. The final output must be a complete, machine-readable "owner's manual" for the repository, enabling any future stateless AI agent to operate effectively and safely.
@@ -87,3 +87,4 @@
     2.  **Request Feedback:** The agent will explicitly ask the user to review the inferred sections, such as `contexts`, `architectural_patterns`, and `operational_rules`, as these are most subject to interpretation.
     3.  **Apply Corrections:** The agent will apply any requested changes directly to the `architecture.manifest.yml` file, saving the final, user-approved version.
 *   **Fallback Intent:** If the user does not provide feedback, the agent will add a comment to the top of the generated file, such as `# WARNING: This is an auto-generated draft. Please review for accuracy before use.`, to ensure the file is not treated as a definitive source of truth without human validation.
+```

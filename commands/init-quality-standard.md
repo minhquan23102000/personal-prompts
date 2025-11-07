@@ -1,4 +1,5 @@
-# Strategic Plan: Project Code Quality Contract Generation
+Following the instruction below and execute carefully step by step:
+```
 
 ### Plan Metadata
 
@@ -73,4 +74,5 @@ This document defines the technical standards for this project. All code must ad
 ### [Domain-Specific Pillar: e.g., API Design]
 *   [Rule for endpoint naming conventions]
 *   [Rule for standard success/error response structures]
+```
 ```

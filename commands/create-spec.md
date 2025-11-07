@@ -1,5 +1,5 @@
-# Strategic Plan: Task Specification & ADR Generation
-
+Following the instruction below and execute carefully step by step:
+```
 **Objective:** To transform a user request into a detailed technical specification and, if necessary, an accompanying Architectural Decision Record. This optimized plan separates high-level solution design from detailed implementation blueprinting to ensure architectural decisions are made and approved before deep, file-level analysis begins.
 
 ### 1. Request Ingestion & Intent Clarification
@@ -43,3 +43,4 @@
 *   **Primary Intent:** To present a complete solution package to the user for final review and approval before any implementation work begins.
 *   **Success Condition:** The user provides explicit approval for the entire plan, authorizing the agent to proceed to the implementation phase.
 *   **Fallback Intent:** If the user requests changes, the agent will analyze the feedback. If the changes are architectural, it will return to **Step 3 (High-Level Solutioning)**. If the changes relate to implementation details, it will return to **Step 5 (Detailed Implementation Blueprinting)** to revise the plan.
+```
